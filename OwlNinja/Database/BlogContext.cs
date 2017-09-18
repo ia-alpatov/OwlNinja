@@ -14,6 +14,8 @@ namespace OwlNinja.Database
 
         public DbSet<Admin> Admins { get; set; }
 
+        public DbSet<Settings> Settings { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
            => optionsBuilder
