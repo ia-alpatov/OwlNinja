@@ -21,7 +21,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace OwlNinja.Controllers
 {
-    
+
     public class AdminsController : Controller
     {
         private BlogContext db;
@@ -41,7 +41,7 @@ namespace OwlNinja.Controllers
         [ServiceFilter(typeof(ValidateReCaptchaAttribute))]
         public IActionResult Login([FromBody]string username, [FromBody]string password)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return Unauthorized();
 
             var user = db.Admins.SingleOrDefault(admin => admin.Username == username);
@@ -60,7 +60,7 @@ namespace OwlNinja.Controllers
                     var withSaltBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(prePassword + user.Salt));
                     passwordHash = BitConverter.ToString(withSaltBytes).Replace("-", "").ToLower();
                 }
-                
+
                 if (user.Password == passwordHash)
                 {
                     var token = new JwtTokenBuilder()
@@ -117,7 +117,7 @@ namespace OwlNinja.Controllers
                 return NotFound();
             }
         }
-        
+
 
         // POST api/posts create new post from admin panel
         [Route("api/admins/post")]
@@ -137,7 +137,7 @@ namespace OwlNinja.Controllers
             db.Posts.Add(dbPost);
             db.SaveChanges();
 
-            foreach(var tag in post.Tags)
+            foreach (var tag in post.Tags)
                 dbPost.Tags.Add(new PostTag() { Tag = tag });
 
             db.SaveChanges();
@@ -151,7 +151,7 @@ namespace OwlNinja.Controllers
         [HttpGet()]
         public IActionResult GetTags()
         {
-            var tags = db.PostTags.Select(tag=>tag.Tag).Distinct().ToList();
+            var tags = db.PostTags.Select(tag => tag.Tag).Distinct().ToList();
             return Json(tags);
         }
 
@@ -162,7 +162,7 @@ namespace OwlNinja.Controllers
         [HttpPatch("{id}")]
         public IActionResult EditPost(string id, [FromBody]PostRequest post)
         {
-            var dbPost = db.Posts.FirstOrDefault(p=>p.Id.ToString() == id);
+            var dbPost = db.Posts.FirstOrDefault(p => p.Id.ToString() == id);
 
             if (dbPost != null)
             {
@@ -227,7 +227,7 @@ namespace OwlNinja.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteComment(string id)
         {
-            var comment = db.Comments.SingleOrDefault(c=>c.Id.ToString()==id);
+            var comment = db.Comments.SingleOrDefault(c => c.Id.ToString() == id);
 
             if (comment != null)
             {

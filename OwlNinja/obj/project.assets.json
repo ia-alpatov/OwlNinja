@@ -2,16 +2,6 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.0": {
-      "Backbone.js/1.3.3": {
-        "type": "package",
-        "dependencies": {
-          "jQuery": "1.7.1",
-          "underscore.js": "1.5.0"
-        }
-      },
-      "jQuery/1.7.1": {
-        "type": "package"
-      },
       "Libuv/1.10.0": {
         "type": "package",
         "dependencies": {
@@ -2680,21 +2670,22 @@
           }
         }
       },
-      "MySqlConnector/0.19.2": {
+      "MySqlConnector/0.26.1": {
         "type": "package",
         "dependencies": {
-          "NETStandard.Library": "1.6.1",
           "System.Buffers": "4.3.0",
           "System.Data.Common": "4.3.0",
+          "System.Diagnostics.Process": "4.3.0",
           "System.Net.NameResolution": "4.3.0",
           "System.Net.Security": "4.3.0",
+          "System.Security.Cryptography.Algorithms": "4.3.0",
           "System.Threading.Tasks.Extensions": "4.3.0"
         },
         "compile": {
-          "lib/netstandard1.3/MySqlConnector.dll": {}
+          "lib/netstandard2.0/MySqlConnector.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/MySqlConnector.dll": {}
+          "lib/netstandard2.0/MySqlConnector.dll": {}
         }
       },
       "NETStandard.Library/2.0.0": {
@@ -2762,20 +2753,20 @@
           "lib/netstandard1.3/Newtonsoft.Json.Bson.dll": {}
         }
       },
-      "Pomelo.EntityFrameworkCore.MySql/1.1.2": {
+      "Pomelo.EntityFrameworkCore.MySql/2.0.0-rtm-10062": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Relational": "1.1.1",
-          "MySqlConnector": "0.19.2",
-          "NETStandard.Library": "1.6.1",
-          "Pomelo.JsonObject": "1.1.1",
-          "System.Threading.Tasks.Extensions": "4.3.0"
+          "Microsoft.EntityFrameworkCore.Design": "2.0.0",
+          "Microsoft.EntityFrameworkCore.Relational": "2.0.0",
+          "Microsoft.Extensions.Logging.Console": "2.0.0",
+          "MySqlConnector": "0.26.1",
+          "Pomelo.JsonObject": "1.1.1"
         },
         "compile": {
-          "lib/netstandard1.3/Pomelo.EntityFrameworkCore.MySql.dll": {}
+          "lib/netstandard2.0/Pomelo.EntityFrameworkCore.MySql.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/Pomelo.EntityFrameworkCore.MySql.dll": {}
+          "lib/netstandard2.0/Pomelo.EntityFrameworkCore.MySql.dll": {}
         }
       },
       "Pomelo.JsonObject/1.1.1": {
@@ -3431,6 +3422,49 @@
             "rid": "unix"
           },
           "runtimes/win/lib/netstandard1.3/System.Diagnostics.FileVersionInfo.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      },
+      "System.Diagnostics.Process/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.Win32.Primitives": "4.3.0",
+          "Microsoft.Win32.Registry": "4.3.0",
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Debug": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.IO.FileSystem": "4.3.0",
+          "System.IO.FileSystem.Primitives": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Runtime.Handles": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Text.Encoding": "4.3.0",
+          "System.Text.Encoding.Extensions": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Threading.Tasks": "4.3.0",
+          "System.Threading.Thread": "4.3.0",
+          "System.Threading.ThreadPool": "4.3.0",
+          "runtime.native.System": "4.3.0"
+        },
+        "compile": {
+          "ref/netstandard1.4/System.Diagnostics.Process.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux/lib/netstandard1.4/System.Diagnostics.Process.dll": {
+            "assetType": "runtime",
+            "rid": "linux"
+          },
+          "runtimes/osx/lib/netstandard1.4/System.Diagnostics.Process.dll": {
+            "assetType": "runtime",
+            "rid": "osx"
+          },
+          "runtimes/win/lib/netstandard1.4/System.Diagnostics.Process.dll": {
             "assetType": "runtime",
             "rid": "win"
           }
@@ -4807,9 +4841,6 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "underscore.js/1.5.1": {
-        "type": "package"
-      },
       "WindowsAzure.Storage/8.1.4": {
         "type": "package",
         "dependencies": {
@@ -4828,33 +4859,6 @@
     }
   },
   "libraries": {
-    "Backbone.js/1.3.3": {
-      "sha512": "TMA87/KGWhk98AM9SRUBcHedV16j7UeBlMVRM0vl8T89FjJQWvc8ltBp+gPIIrUocaCict87bML0L8dm+OwQxw==",
-      "type": "package",
-      "path": "backbone.js/1.3.3",
-      "files": [
-        "Content/Scripts/backbone.js",
-        "Content/Scripts/backbone.min.js",
-        "Content/Scripts/backbone.min.map",
-        "backbone.js.1.3.3.nupkg.sha512",
-        "backbone.js.nuspec"
-      ]
-    },
-    "jQuery/1.7.1": {
-      "sha512": "kxMYpP0to5Q2NGoV30zVIl/vqWt42vDEQ7JOjefewwKTwitv5XijF5iP+4Bl99t1lujA1Y1/1KwLMkJl1/oJjw==",
-      "type": "package",
-      "path": "jquery/1.7.1",
-      "files": [
-        "Content/Scripts/jquery-1.7.1-vsdoc.js",
-        "Content/Scripts/jquery-1.7.1.js",
-        "Content/Scripts/jquery-1.7.1.min.js",
-        "Tools/install.ps1",
-        "Tools/jquery-1.7.1-vsdoc-para.js",
-        "Tools/uninstall.ps1",
-        "jquery.1.7.1.nupkg.sha512",
-        "jquery.nuspec"
-      ]
-    },
     "Libuv/1.10.0": {
       "sha512": "GsCf4q+eyaI49rCPlgYxdxa1SQCysXFFdSJWdstrwxytg4+VPYLYrXD4AT2rjHVJ+UF7SSWX9CapWEYaU4ejVQ==",
       "type": "package",
@@ -7497,14 +7501,16 @@
         "version.txt"
       ]
     },
-    "MySqlConnector/0.19.2": {
-      "sha512": "BjF5GJn1oZMr2B0K/q3auTplGmiwJD5o77W+YQ58Egq7OQIyloOxzJkhjm0kbsLYMrU/56pWApnLE/LLDvEFaA==",
+    "MySqlConnector/0.26.1": {
+      "sha512": "DEWS+PiC+JeYw5zLEoZeOlWyKOQBoxuWdwkrRnv6V5rY2GNpLWnhlBl/P/EPXkHA7PZSFcgVBvR4wimiAioXrg==",
       "type": "package",
-      "path": "mysqlconnector/0.19.2",
+      "path": "mysqlconnector/0.26.1",
       "files": [
-        "lib/net451/MySqlConnector.dll",
+        "lib/net45/MySqlConnector.dll",
+        "lib/net46/MySqlConnector.dll",
         "lib/netstandard1.3/MySqlConnector.dll",
-        "mysqlconnector.0.19.2.nupkg.sha512",
+        "lib/netstandard2.0/MySqlConnector.dll",
+        "mysqlconnector.0.26.1.nupkg.sha512",
         "mysqlconnector.nuspec"
       ]
     },
@@ -7673,14 +7679,13 @@
         "newtonsoft.json.bson.nuspec"
       ]
     },
-    "Pomelo.EntityFrameworkCore.MySql/1.1.2": {
-      "sha512": "F6hPurjiavm6w4xXXnfr78i/2EFAx/ShKrMA7obT2OmKr+tUQQ7+71TYF1hWqZXYZgiDHSiqN5kmuWYkgYwzWg==",
+    "Pomelo.EntityFrameworkCore.MySql/2.0.0-rtm-10062": {
+      "sha512": "yT2Xx0eRrlQrr0SqveTwGtynyNAeuJ+vEX13jpDH+XgwlBYAzcqXC6pPWEKCoTBag/5+97VJv/0B+tvwJwmX8A==",
       "type": "package",
-      "path": "pomelo.entityframeworkcore.mysql/1.1.2",
+      "path": "pomelo.entityframeworkcore.mysql/2.0.0-rtm-10062",
       "files": [
-        "lib/net451/Pomelo.EntityFrameworkCore.MySql.dll",
-        "lib/netstandard1.3/Pomelo.EntityFrameworkCore.MySql.dll",
-        "pomelo.entityframeworkcore.mysql.1.1.2.nupkg.sha512",
+        "lib/netstandard2.0/Pomelo.EntityFrameworkCore.MySql.dll",
+        "pomelo.entityframeworkcore.mysql.2.0.0-rtm-10062.nupkg.sha512",
         "pomelo.entityframeworkcore.mysql.nuspec"
       ]
     },
@@ -8982,6 +8987,61 @@
         "runtimes/win/lib/netstandard1.3/System.Diagnostics.FileVersionInfo.dll",
         "system.diagnostics.fileversioninfo.4.3.0.nupkg.sha512",
         "system.diagnostics.fileversioninfo.nuspec"
+      ]
+    },
+    "System.Diagnostics.Process/4.3.0": {
+      "sha512": "J0wOX07+QASQblsfxmIMFc9Iq7KTXYL3zs2G/Xc704Ylv3NpuVdo6gij6V3PGiptTxqsK0K7CdXenRvKUnkA2g==",
+      "type": "package",
+      "path": "system.diagnostics.process/4.3.0",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net46/System.Diagnostics.Process.dll",
+        "lib/net461/System.Diagnostics.Process.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net46/System.Diagnostics.Process.dll",
+        "ref/net461/System.Diagnostics.Process.dll",
+        "ref/netstandard1.3/System.Diagnostics.Process.dll",
+        "ref/netstandard1.3/System.Diagnostics.Process.xml",
+        "ref/netstandard1.3/de/System.Diagnostics.Process.xml",
+        "ref/netstandard1.3/es/System.Diagnostics.Process.xml",
+        "ref/netstandard1.3/fr/System.Diagnostics.Process.xml",
+        "ref/netstandard1.3/it/System.Diagnostics.Process.xml",
+        "ref/netstandard1.3/ja/System.Diagnostics.Process.xml",
+        "ref/netstandard1.3/ko/System.Diagnostics.Process.xml",
+        "ref/netstandard1.3/ru/System.Diagnostics.Process.xml",
+        "ref/netstandard1.3/zh-hans/System.Diagnostics.Process.xml",
+        "ref/netstandard1.3/zh-hant/System.Diagnostics.Process.xml",
+        "ref/netstandard1.4/System.Diagnostics.Process.dll",
+        "ref/netstandard1.4/System.Diagnostics.Process.xml",
+        "ref/netstandard1.4/de/System.Diagnostics.Process.xml",
+        "ref/netstandard1.4/es/System.Diagnostics.Process.xml",
+        "ref/netstandard1.4/fr/System.Diagnostics.Process.xml",
+        "ref/netstandard1.4/it/System.Diagnostics.Process.xml",
+        "ref/netstandard1.4/ja/System.Diagnostics.Process.xml",
+        "ref/netstandard1.4/ko/System.Diagnostics.Process.xml",
+        "ref/netstandard1.4/ru/System.Diagnostics.Process.xml",
+        "ref/netstandard1.4/zh-hans/System.Diagnostics.Process.xml",
+        "ref/netstandard1.4/zh-hant/System.Diagnostics.Process.xml",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "runtimes/linux/lib/netstandard1.4/System.Diagnostics.Process.dll",
+        "runtimes/osx/lib/netstandard1.4/System.Diagnostics.Process.dll",
+        "runtimes/win/lib/net46/System.Diagnostics.Process.dll",
+        "runtimes/win/lib/net461/System.Diagnostics.Process.dll",
+        "runtimes/win/lib/netstandard1.4/System.Diagnostics.Process.dll",
+        "runtimes/win7/lib/netcore50/_._",
+        "system.diagnostics.process.4.3.0.nupkg.sha512",
+        "system.diagnostics.process.nuspec"
       ]
     },
     "System.Diagnostics.StackTrace/4.3.0": {
@@ -12690,18 +12750,6 @@
         "system.xml.xpath.xdocument.nuspec"
       ]
     },
-    "underscore.js/1.5.1": {
-      "sha512": "5yVTOWkta4nFBnSSy8yNpHac+o3N9KX64zG+WL/I/Fiibu9pkS5xo49PO8TDxwzQZpmcNrHRDPzI3/x0RxwHVg==",
-      "type": "package",
-      "path": "underscore.js/1.5.1",
-      "files": [
-        "Content/Scripts/underscore.js",
-        "Content/Scripts/underscore.min.js",
-        "Content/Scripts/underscore.min.map",
-        "underscore.js.1.5.1.nupkg.sha512",
-        "underscore.js.nuspec"
-      ]
-    },
     "WindowsAzure.Storage/8.1.4": {
       "sha512": "W6ZZ0/o7+3Qb77mRAQyLjPudHG3OMeeQ4p9yY13PUdJArmRCx2cLMm5F4tpIjJXxzHC0ew0oK7DMDGILMdfCnw==",
       "type": "package",
@@ -12727,10 +12775,9 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
-      "Backbone.js >= 1.3.3",
       "Microsoft.AspNetCore.All >= 2.0.0",
       "Microsoft.NETCore.App >= 2.0.0",
-      "Pomelo.EntityFrameworkCore.MySql >= 1.1.2"
+      "Pomelo.EntityFrameworkCore.MySql >= 2.0.0-rtm-10062"
     ]
   },
   "packageFolders": {
@@ -12779,16 +12826,12 @@
         "dependencies": {
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",
-            "version": "1.1.2"
+            "version": "2.0.0-rtm-10062"
           },
           "Microsoft.NETCore.App": {
             "target": "Package",
             "version": "2.0.0",
             "autoReferenced": true
-          },
-          "Backbone.js": {
-            "target": "Package",
-            "version": "1.3.3"
           },
           "Microsoft.AspNetCore.All": {
             "target": "Package",
@@ -12802,17 +12845,5 @@
         "warn": true
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1603",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Backbone.js 1.3.3 зависит от underscore.js (>= 1.5.0), но underscore.js 1.5.0 не найден. Использовано наилучшее приближенное соответствие underscore.js 1.5.1.",
-      "libraryId": "underscore.js",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v2.0"
-      ]
-    }
-  ]
+  }
 }

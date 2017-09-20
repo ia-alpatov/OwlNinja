@@ -6,7 +6,7 @@ namespace OwlNinja.Database.Models
 {
     public class PostTag
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [ForeignKey("Post")]
         public Guid PostId { get; set; }

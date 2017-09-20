@@ -1,0 +1,42 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <form name="sentMessage" id="CreatePostForm" novalidate>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Заголовок</label>
+                        <input type="text" class="form-control" placeholder="Заголовок" id="title" required data-validation-required-message="Введите заголовок.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Подзаголовок</label>
+                        <input type="text" class="form-control" placeholder="Подзаголовок" id="subtitle" required data-validation-required-message="Введите подзаголовок.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+
+                <div id="summernote"></div>
+                <script>
+      $('#summernote').summernote({
+        placeholder: 'Текст поста',
+        tabsize: 2,
+        height: 100
+      });
+                </script>
+
+                <label class="custom-file">
+                    <input type="file" id="file" class="custom-file-input">
+                    <span class="custom-file-control"></span>
+                </label>
+
+                <br>
+                <div id="success"></div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-secondary" id="sendMessageButton">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

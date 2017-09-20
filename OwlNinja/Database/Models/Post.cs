@@ -19,11 +19,12 @@ namespace OwlNinja.Database.Models
 
         public string Content { get; set; }
 
+        public string HeaderImage { get; set; }
+
         public DateTime Time { get; set; }
 
         public virtual ICollection<PostTag> Tags { get; set; } = new List<PostTag>();
 
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
-
     }
 }

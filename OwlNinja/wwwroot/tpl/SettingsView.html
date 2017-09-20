@@ -1,0 +1,103 @@
+﻿<div class="container">
+
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <button type="submit" class="btn btn-secondary" id="createPostButton">Создать пост</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <form name="sentMessage" id="SettingsForm" novalidate>
+
+                <h3>Главная страница</h3>
+
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Заголовок блога</label>
+                        <input value="<%= HomeTitle %>" type="text" class="form-control" placeholder="Заголовок блога" id="titlemain" required data-validation-required-message="Введите заголовок.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Подзаголовок блога</label>
+                        <input value="<%= HomeSubHeading %>"  type="text" class="form-control" placeholder="Подзаголовок блога" id="subtitlemain" required data-validation-required-message="Введите подзаголовок.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+
+                <label id="filemain" class="custom-file">
+                    <input type="file" id="imagemain" class="custom-file-input">
+                    <span class="custom-file-control"></span>
+                </label>
+
+                <h3>Страница с тэгами</h3>
+
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Заголовок страницы с тегами</label>
+                        <input value="<%= PostsByTagsTitle %>"  type="text" class="form-control" placeholder="Заголовок" id="titletags" required data-validation-required-message="Введите заголовок.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+               
+                <label id="filetags" class="custom-file">
+                    <input type="file" id="imagetags" class="custom-file-input">
+                    <span class="custom-file-control"></span>
+                </label>
+
+                <h3>Обо мне</h3>
+
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Заголовок обо мне</label>
+                        <input value="<%= AboutMeTitle %>" type="text" class="form-control" placeholder="Заголовок" id="titleAboutMe" required data-validation-required-message="Введите заголовок.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Подзаголовок обо мне</label>
+                        <input value="<%= AboutMeSubHeading %>" type="text" class="form-control" placeholder="Подзаголовок" id="subtitleAboutMe" required data-validation-required-message="Введите подзаголовок.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+
+                <label id="fileAboutMe" class="custom-file">
+                    <input type="file" id="imageAboutMe" class="custom-file-input">
+                    <span class="custom-file-control"></span>
+                </label>
+
+                <div id="summernoteAboutMe"></div>
+                <script>
+                    $('#summernoteAboutMe').summernote({
+                        placeholder: 'Текст страницы обо мне',
+                        tabsize: 2,
+                        height: 100
+                    });
+                    $('#summernoteAboutMe').summernote('code', "<%= AboutMeHtml %>");
+                </script>
+
+                <h3>Настройки</h3>
+
+                <label id="fileSettings" class="custom-file">
+                    <input type="file" id="imageSettings" class="custom-file-input">
+                    <span class="custom-file-control"></span>
+                </label>
+
+                <h3>Авторизация админа</h3>
+
+                <label id="fileAdmin" class="custom-file">
+                    <input type="file" id="imageAdmin" class="custom-file-input">
+                    <span class="custom-file-control"></span>
+                </label>
+
+                <br>
+                <div id="success"></div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-secondary" id="saveSettingsButton">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

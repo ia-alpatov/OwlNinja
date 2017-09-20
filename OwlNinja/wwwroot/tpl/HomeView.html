@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <%
+            for(var post in Posts){            
+            %>
+            <div class="post-preview">
+                <a href="#post/<%= post.Id %>">
+                    <h2 class="post-title">
+                        <%= post.PostTitle %>
+                    </h2>
+                    <h3 class="post-subtitle">
+                        <%= post.Summary %>
+                    </h3>
+                </a>
+                <p class="post-meta">
+                    Опубликовано <%= post.PostDate %>
+                </p>
+                <p class="post-meta">
+                    <%
+                    for(var tag in post.Tags){
+                    %>         
+                    <a href="#postsbytag/<%= tag %>"><%= tag %></a> 
+                    <%
+                    }
+                    %>
+                </p>
+            </div>
+            <hr>
+            <%
+            }
+            %>
+            <!-- Pager -->
+            <div id="HomePager" class="clearfix justify-content-center">
+            </div>
+        </div>
+    </div>
+</div>

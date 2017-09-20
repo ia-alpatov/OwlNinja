@@ -19,7 +19,7 @@ namespace OwlNinja.Controllers
 
         private BlogContext db;
 
-        public CommentsController(BlogContext db)
+        public CommentsController([FromServices] BlogContext db)
         {
             this.db = db;
         }

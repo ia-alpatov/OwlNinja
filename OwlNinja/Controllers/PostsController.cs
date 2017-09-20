@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using OwlNinja.Database;
-using OwlNinja.Database.Models;
 using OwlNinja.Models;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace OwlNinja.Controllers
 {
@@ -18,7 +13,7 @@ namespace OwlNinja.Controllers
     {
         private BlogContext db;
 
-        public PostsController(BlogContext db)
+        public PostsController([FromServices] BlogContext db)
         {
             this.db = db;
         }
@@ -38,12 +33,13 @@ namespace OwlNinja.Controllers
             {
                 result.Posts.Add(new PostResult() {
                     Id = post.Id.ToString(),
-                    Title = post.Title,
+                    PostTitle = post.Title,
+                    PostSubHeading = post.Summary,
+                    HeaderPostImage = post.HeaderImage,
                     EnTitle = post.EnTitle,
-                    Summary = post.Summary,
-                    Content = post.Content,
-                    Time = post.Time,
-                    Tags = post.Tags.Select(tag=>tag.Tag).ToList()
+                    PostHtml = post.Content,
+                    PostDate = post.Time.ToString("HH:MM dd.mm.yyyy"),
+                    Tags = post.Tags.Select(tag => tag.Tag).ToList()
                 });
             }
 
@@ -52,21 +48,22 @@ namespace OwlNinja.Controllers
 
         // GET api/posts/1 get post N data
         [Route("api/posts")]
-        [HttpGet("{id}")]
-        public IActionResult GetPost(string id)
+        [HttpGet("{url}")]
+        public IActionResult GetPost(string url)
         {
-            var post = db.Posts.SingleOrDefault(p => p.Id.ToString() == id);
+            var post = db.Posts.SingleOrDefault(p => p.EnTitle == url);
 
             if (post != null)
             {
                 var result = new PostResult()
                 {
                     Id = post.Id.ToString(),
-                    Title = post.Title,
+                    PostTitle = post.Title,
+                    PostSubHeading = post.Summary,
+                    HeaderPostImage = post.HeaderImage,
                     EnTitle = post.EnTitle,
-                    Summary = post.Summary,
-                    Content = post.Content,
-                    Time = post.Time,
+                    PostHtml = post.Content,
+                    PostDate = post.Time.ToString("HH:MM dd.mm.yyyy"),
                     Tags = post.Tags.Select(tag => tag.Tag).ToList()
                 };
 
@@ -80,7 +77,7 @@ namespace OwlNinja.Controllers
 
         // GET api/tags get posts data by tag
         [Route("api/tags")]
-        [HttpGet()]
+        [HttpGet]
         public JsonResult GetPostsByTag([FromBody] string tag, [FromBody] int skip)
         {
             PostsResult result = new PostsResult();
@@ -94,11 +91,12 @@ namespace OwlNinja.Controllers
                 result.Posts.Add(new PostResult()
                 {
                     Id = post.Id.ToString(),
-                    Title = post.Title,
+                    PostTitle = post.Title,
+                    PostSubHeading = post.Summary,
+                    HeaderPostImage = post.HeaderImage,
                     EnTitle = post.EnTitle,
-                    Summary = post.Summary,
-                    Content = post.Content,
-                    Time = post.Time,
+                    PostHtml = post.Content,
+                    PostDate = post.Time.ToString("HH:MM dd.mm.yyyy"),
                     Tags = post.Tags.Select(t => t.Tag).ToList()
                 });
             }

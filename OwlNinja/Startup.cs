@@ -13,6 +13,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using OwlNinja.Controllers;
+using OwlNinja.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace OwlNinja
 {
@@ -46,12 +48,14 @@ namespace OwlNinja
                              };
                     });
 
+            
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddScoped<ValidateReCaptchaAttribute>();
+            services.AddDbContext<BlogContext>(x => x.UseMySql(@"server=128.199.62.152;database=owlninja;uid=testuser;pwd=Qwertyl01;"));
         }
 
       
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, BlogContext DB)
         {
             if (env.IsDevelopment())
             {
@@ -59,11 +63,14 @@ namespace OwlNinja
             }
             app.UseAuthentication();
             app.UseStaticFiles();
-
+                      
             app.UseMvc();
+
+            DB.Database.EnsureCreated();
+
         }
 
-       
+
     }
 
     public static class JwtSecurityKey
