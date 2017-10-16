@@ -7,15 +7,12 @@ namespace OwlNinja.Models
 {
     public class PostRequest
     {
-        public string Title { get; set; }
-
         public string EnTitle { get; set; }
-
-        public string Summary { get; set; }
-
-        public string Content { get; set; }
-
-        public DateTime Time { get; set; }
+        public string HeaderPostImage { get; set; }
+        public string PostSubHeading { get; set; }
+        public string PostTitle { get; set; }
+        public string PostHtml { get; set; }
+        public string PostDate { get; set; }
 
         public List<string> Tags { get; set; }
     }

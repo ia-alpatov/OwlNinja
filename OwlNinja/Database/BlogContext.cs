@@ -5,7 +5,9 @@ namespace OwlNinja.Database
 {
     public class BlogContext : DbContext
     {
-        public BlogContext(DbContextOptions opt) : base(opt) { }
+        public BlogContext(DbContextOptions opt) : base(opt) {
+        
+        }
 
         public DbSet<Post> Posts { get; set; }
 

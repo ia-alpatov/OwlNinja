@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace OwlNinja
 {
@@ -20,6 +21,15 @@ namespace OwlNinja
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseKestrel(options =>
+                {
+                    options.Listen(IPAddress.Any, 5000);
+                
+                 /*   options.Listen(IPAddress.Loopback, 443, listenOptions =>
+                    {
+                        listenOptions.UseHttps("testCert.pfx", "testPassword");
+                    });*/
+                })
                 .Build();
     }
 }

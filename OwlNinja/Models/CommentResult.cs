@@ -7,7 +7,7 @@ namespace OwlNinja.Models
 {
     public class CommentsResult
     {
-        public List<CommentResult> Comments{ get; set; }
+        public List<CommentResult> Comments { get; set; }
     }
 
 
@@ -15,7 +15,7 @@ namespace OwlNinja.Models
     {
         public string Id { get; set; }
 
-        public DateTime Time { get; set; }
+        public string Time { get; set; }
 
         public string Text { get; set; }
     }

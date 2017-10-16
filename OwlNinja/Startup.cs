@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Http;
 using OwlNinja.Controllers;
 using OwlNinja.Database;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace OwlNinja
 {
@@ -31,7 +33,7 @@ namespace OwlNinja
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
+            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options => {
                         options.TokenValidationParameters =
@@ -48,10 +50,9 @@ namespace OwlNinja
                              };
                     });
 
-            
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddScoped<ValidateReCaptchaAttribute>();
-            services.AddDbContext<BlogContext>(x => x.UseMySql(@"server=128.199.62.152;database=owlninja;uid=testuser;pwd=Qwertyl01;"));
+            services.AddDbContext<BlogContext>(x => x.UseMySql(@"server=localhost;database=owlninja;uid=admin;pwd=365e15c3dce7bd20bfef215b463f3ad1bd202b6558b50b7b;"));
         }
 
       
@@ -59,18 +60,25 @@ namespace OwlNinja
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+               app.UseDeveloperExceptionPage();
             }
+           
+
+            var options = new RewriteOptions()
+                    .AddRewrite("^(?!css|img|js|lib|tpl|uploads|api|favicon).*$", "index.html", skipRemainingRules: true);
+
+
+            app.UseRewriter(options);
+            
+
             app.UseAuthentication();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
-                      
             app.UseMvc();
-
+            
             DB.Database.EnsureCreated();
-
+            DB.Database.Migrate();
         }
-
-
     }
 
     public static class JwtSecurityKey

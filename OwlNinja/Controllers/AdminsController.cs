@@ -18,6 +18,9 @@ using System.Security.Cryptography;
 using System.Text;
 using OwlNinja.Models;
 using Microsoft.AspNetCore.Hosting;
+using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace OwlNinja.Controllers
 {
@@ -27,7 +30,7 @@ namespace OwlNinja.Controllers
         private BlogContext db;
         private IHostingEnvironment hostingEnvironment;
 
-        public AdminsController(BlogContext db, IHostingEnvironment hostingEnvironment)
+        public AdminsController([FromServices] BlogContext db, IHostingEnvironment hostingEnvironment)
         {
             this.db = db;
             this.hostingEnvironment = hostingEnvironment;
@@ -39,12 +42,12 @@ namespace OwlNinja.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ServiceFilter(typeof(ValidateReCaptchaAttribute))]
-        public IActionResult Login([FromBody]string username, [FromBody]string password)
+        public IActionResult Login([FromForm]string username, [FromForm]string password)
         {
             if (!ModelState.IsValid)
                 return Unauthorized();
-
-            var user = db.Admins.SingleOrDefault(admin => admin.Username == username);
+            
+            var user = db.Admins.SingleOrDefault(admin => admin.Username.ToLower() == username.ToLower());
 
             if (user != null)
             {
@@ -86,27 +89,85 @@ namespace OwlNinja.Controllers
         }
 
 
-        /*
         //PATCH api/admins Change site settings 
         [Authorize]
         [Route("api/admins/settings")]
-        [HttpPatch]
-        public JsonResult ChangeSiteSettings([FromBody]SettingsRequest settings)
+        [HttpPut]
+        public IActionResult ChangeSiteSettings([FromForm]string sets)
         {
+            Settings settings = JsonConvert.DeserializeObject<Settings>(sets);
 
+
+            var setting = db.Settings.FirstOrDefault();
+
+            setting.HomeTitle = settings.HomeTitle;
+
+            setting.HomeSubHeading = settings.HomeSubHeading;
+            setting.PostsByTagsTitle = settings.PostsByTagsTitle;
+            setting.AboutMeTitle = settings.AboutMeTitle;
+            setting.AboutMeSubHeading = settings.AboutMeSubHeading;
+            setting.AboutMeHtml = settings.AboutMeHtml;
+
+            setting.HomeBgUrl = (String.IsNullOrWhiteSpace(settings.HomeBgUrl))? setting.HomeBgUrl : settings.HomeBgUrl;
+            setting.PostsByTagsBgUrl = (String.IsNullOrWhiteSpace(settings.PostsByTagsBgUrl)) ? setting.PostsByTagsBgUrl : settings.PostsByTagsBgUrl;
+            setting.AboutMeBgUrl = (String.IsNullOrWhiteSpace(settings.AboutMeBgUrl)) ? setting.AboutMeBgUrl : settings.AboutMeBgUrl;
+
+            setting.SettingsImage = (String.IsNullOrWhiteSpace(settings.SettingsImage)) ? setting.SettingsImage : settings.SettingsImage;
+            setting.CreatePostImage = (String.IsNullOrWhiteSpace(settings.CreatePostImage)) ? setting.CreatePostImage : settings.CreatePostImage;
+            setting.AdminImage = (String.IsNullOrWhiteSpace(settings.AdminImage)) ? setting.AdminImage : settings.AdminImage;
+
+            db.SaveChanges();
+
+            return Ok();
         }
-        */
+
+        //GET api/admins Change site settings 
+        [AllowAnonymous]
+        [Route("api/admins/settings")]
+        [HttpGet]
+        public JsonResult GetSiteSettings()
+        {
+            if (!db.Settings.Any())
+            {
+                var setting = new Settings();
+
+                setting.HomeTitle = "Заглавная страница";
+                setting.HomeSubHeading = "Подзаголовок заглавной страницы";
+
+                setting.PostsByTagsTitle = "Посты по тэгам";
+
+                setting.AboutMeTitle = "Обо мне"; ;
+                setting.AboutMeSubHeading = "Подзаголовок страницы обо мне"; ;
+                setting.AboutMeHtml = @"<h3>Тут может быть ваш текст</>";
+
+                setting.HomeBgUrl = "img/home-bg.jpg";
+                setting.PostsByTagsBgUrl = "img/home-bg.jpg";
+                setting.AboutMeBgUrl = "img/home-bg.jpg";
+
+                setting.SettingsImage = "img/home-bg.jpg";
+                setting.CreatePostImage = "img/home-bg.jpg";
+                setting.AdminImage = "img/home-bg.jpg";
+
+                db.Settings.Add(setting);
+                db.SaveChanges();
+            }
+
+
+            var settings = db.Settings.FirstOrDefault();
+            return Json(settings);
+        }
 
         //POST api/admins/image upload image and get url
         [Authorize]
         [Route("api/admins/image")]
         [HttpPost]
-        public IActionResult UploadImage([FromBody]string data)
+        public IActionResult UploadImage([FromForm]string data)
         {
             try
             {
-                var base64array = Convert.FromBase64String(data);
-                var pathUrl = $"uploads/admin/{ Guid.NewGuid()}.jpg";
+                var base64Data = Regex.Match(data, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+                var base64array = Convert.FromBase64String(base64Data);
+                var pathUrl = $"uploads/admins/{ Guid.NewGuid()}.jpg";
                 var filePath = Path.Combine($"{hostingEnvironment.ContentRootPath}/wwwroot/" + pathUrl);
                 System.IO.File.WriteAllBytes(filePath, base64array);
 
@@ -123,22 +184,25 @@ namespace OwlNinja.Controllers
         [Route("api/admins/post")]
         [Authorize]
         [HttpPost]
-        public IActionResult CreateNewPost([FromBody]PostRequest post)
+        public IActionResult CreateNewPost([FromForm]string post)
         {
+            PostRequest Post = JsonConvert.DeserializeObject<PostRequest>(post);
+
             Post dbPost = new Post()
             {
-                Title = post.Title,
-                EnTitle = post.EnTitle,
+                Title = Post.PostTitle,
+                EnTitle = Post.EnTitle,
                 Time = DateTime.Now,
-                Content = post.Content,
-                Summary = post.Summary
+                Content = Post.PostHtml,
+                Summary = Post.PostSubHeading,
+                HeaderImage = Post.HeaderPostImage
             };
 
             db.Posts.Add(dbPost);
             db.SaveChanges();
 
-            foreach (var tag in post.Tags)
-                dbPost.Tags.Add(new PostTag() { Tag = tag });
+            foreach (var tag in Post.Tags)
+                dbPost.Tags.Add(new PostTag() { Tag = tag});
 
             db.SaveChanges();
 
@@ -148,7 +212,7 @@ namespace OwlNinja.Controllers
         // POST api/posts create new post from admin panel
         [Route("api/admins/tags")]
         [Authorize]
-        [HttpGet()]
+        [HttpGet]
         public IActionResult GetTags()
         {
             var tags = db.PostTags.Select(tag => tag.Tag).Distinct().ToList();
@@ -159,28 +223,31 @@ namespace OwlNinja.Controllers
         // PATCH api/posts/1 edit post N from admin panel
         [Route("api/admins/post")]
         [Authorize]
-        [HttpPatch("{id}")]
-        public IActionResult EditPost(string id, [FromBody]PostRequest post)
+        [HttpPatch]
+        public IActionResult EditPost([FromForm]string post)
         {
-            var dbPost = db.Posts.FirstOrDefault(p => p.Id.ToString() == id);
+            PostRequest Post = JsonConvert.DeserializeObject<PostRequest>(post);
+
+            var dbPost = db.Posts.Include(p=>p.Tags).FirstOrDefault(p => p.EnTitle == Post.EnTitle);
 
             if (dbPost != null)
             {
-                dbPost.Summary = post.Summary;
-                dbPost.Content = post.Content;
-                dbPost.Title = post.Title;
-                dbPost.EnTitle = post.EnTitle;
+                dbPost.Summary = Post.PostSubHeading;
+                dbPost.Content = Post.PostHtml;
+                dbPost.Title = Post.PostTitle;
+                dbPost.EnTitle = Post.EnTitle;
+                dbPost.HeaderImage = (String.IsNullOrWhiteSpace(Post.HeaderPostImage))? dbPost.HeaderImage : Post.HeaderPostImage;
 
                 List<PostTag> tagsToDelete = new List<PostTag>();
                 foreach (var tag in dbPost.Tags)
                 {
-                    if (!post.Tags.Contains(tag.Tag))
+                    if (!Post.Tags.Contains(tag.Tag))
                     {
                         tagsToDelete.Add(tag);
                     }
                 }
 
-                foreach (var tag in post.Tags)
+                foreach (var tag in Post.Tags)
                 {
                     if (!dbPost.Tags.Any(t => t.Tag == tag))
                     {
@@ -189,7 +256,7 @@ namespace OwlNinja.Controllers
                 }
 
                 foreach (var tag in tagsToDelete)
-                    dbPost.Tags.Remove(tag);
+                    db.Remove(tag);
 
                 db.SaveChanges();
 
@@ -201,13 +268,13 @@ namespace OwlNinja.Controllers
             }
         }
 
-        // DELETE api/admin/post/1 delete post N from admin panel
+        // DELETE api/admins/post/1 delete post N from admin panel
         [Route("api/admins/post")]
         [Authorize]
-        [HttpDelete("{id}")]
-        public IActionResult DeletePost(string id)
+        [HttpDelete]
+        public IActionResult DeletePost([FromForm]string url)
         {
-            var post = db.Posts.SingleOrDefault(c => c.Id.ToString() == id);
+            var post = db.Posts.SingleOrDefault(c => c.EnTitle == url);
 
             if (post != null)
             {
@@ -221,11 +288,11 @@ namespace OwlNinja.Controllers
             }
         }
 
-        // DELETE api/admin/comment/1 delete comment N from admin panel
+        // DELETE api/admins/comment/1 delete comment N from admin panel
         [Route("api/admins/comment")]
         [Authorize]
-        [HttpDelete("{id}")]
-        public IActionResult DeleteComment(string id)
+        [HttpDelete]
+        public IActionResult DeleteComment([FromForm]string id)
         {
             var comment = db.Comments.SingleOrDefault(c => c.Id.ToString() == id);
 

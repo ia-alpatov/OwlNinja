@@ -8,11 +8,13 @@ using OwlNinja.Database;
 using OwlNinja.Models;
 using OwlNinja.Database.Models;
 
+using Microsoft.EntityFrameworkCore;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace OwlNinja.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/comments")]
     [AllowAnonymous]
     public class CommentsController : Controller
     {
@@ -25,20 +27,21 @@ namespace OwlNinja.Controllers
         }
 
         // GET api/comments/1 get comments for post N
-        [HttpGet("{id}")]
-        public JsonResult GetCommentForPost(string id)
+        [HttpGet]
+        [AllowAnonymous]
+        public JsonResult GetCommentForPost([FromQuery]string url)
         {
             CommentsResult result = new CommentsResult();
             result.Comments = new List<CommentResult>();
-            var query = db.Comments.Where(comment => comment.PostId.ToString() == id);
+            var query = db.Posts.Include(p=>p.Comments).SingleOrDefault(p => p.EnTitle == url);
             
-            foreach (var comment in query)
+            foreach (var comment in query.Comments)
             {
                 result.Comments.Add(new CommentResult()
                 {
                     Id = comment.Id.ToString(),
                     Text = comment.Text,
-                    Time = comment.Time
+                    Time = comment.Time.ToString("HH:MM dd.mm.yyyy"),
                 });
             }
 
@@ -46,18 +49,19 @@ namespace OwlNinja.Controllers
         }
 
         // POST api/comments/1 send comment for post
-        [HttpPost("{id}")]
+        [HttpPost]
         [ServiceFilter(typeof(ValidateReCaptchaAttribute))]
-        public IActionResult PostComment(string id, [FromBody]string comment)
+        [AllowAnonymous]
+        public IActionResult PostComment([FromForm]string url, [FromForm]string text)
         {
             if (!ModelState.IsValid)
                 return Unauthorized();
 
-            var post = db.Posts.SingleOrDefault(p => p.Id.ToString() == id);
+            var post = db.Posts.Include(p=>p.Comments).SingleOrDefault(p => p.EnTitle == url);
 
             if (post != null)
             {
-                post.Comments.Add(new Comment() {  Time = DateTime.Now, Text = comment});
+                post.Comments.Add(new Comment() {  Time = DateTime.Now, Text = System.Net.WebUtility.HtmlEncode(text) });
                 db.SaveChanges();
                 return Ok();
             }

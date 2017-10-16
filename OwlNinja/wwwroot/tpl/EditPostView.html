@@ -1,0 +1,65 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <form name="sentMessage" id="CreatePostForm" novalidate>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Заголовок</label>
+                        <input type="text" class="form-control" value="<%= Post.postTitle %>" placeholder="Заголовок" id="title" required data-validation-required-message="Введите заголовок.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Подзаголовок</label>
+                        <input type="text" class="form-control" value="<%= Post.postSubHeading %>" placeholder="Подзаголовок" id="subtitle" required data-validation-required-message="Введите подзаголовок.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Адрес на английском (без пробелов)</label>
+                        <input type="text" class="form-control" value="<%= Post.enTitle %>" placeholder="Адрес" id="address" required data-validation-required-message="Введите адрес.">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <br>
+
+                <div id="summernote"></div>
+                <script>
+                    $('#summernote').summernote({
+                        placeholder: 'Текст поста',
+                        tabsize: 2,
+                        height: 100
+                    });
+                    $('#summernote').summernote('code', "<%= Post.postHtml %>");
+                </script>
+
+                <br>
+
+                <div class="control-group">
+                    <div class="form-group controls">
+                        <label>Теги:</label>
+                        <input type="text" id="tags" name="tags" class="form-control"
+                               value="<%= Tags %>" data-role="tagsinput" />
+                    </div>
+                </div>
+                <script>
+                    $('#tags').tagsinput();
+                </script>
+
+
+                <br>
+                <label>
+                    <input type="file" id="file">
+                </label>
+
+                <br>
+                <div id="success"></div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-secondary" id="savePostButton">Сохранить пост</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

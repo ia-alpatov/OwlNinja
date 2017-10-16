@@ -1,0 +1,5 @@
+C:\Gits\OwlNinja\OwlNinja
+--output-path=obj\Release\netcoreapp2.0\
+--application-name=OwlNinja
+--content-root=C:\Gits\OwlNinja\OwlNinja
+--file=

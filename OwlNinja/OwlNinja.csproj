@@ -5,7 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\uploads\admin\" />
+    <None Remove="ApacheModRewrite.txt" />
+    <None Remove="IISUrlRewrite.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ApacheModRewrite.txt" />
+    <Content Include="IISUrlRewrite.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\admins\" />
   </ItemGroup>
 
   <ItemGroup>

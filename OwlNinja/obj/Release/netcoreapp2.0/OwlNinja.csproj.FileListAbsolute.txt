@@ -1,0 +1,11 @@
+C:\Gits\OwlNinja\OwlNinja\bin\Release\netcoreapp2.0\OwlNinja.deps.json
+C:\Gits\OwlNinja\OwlNinja\bin\Release\netcoreapp2.0\OwlNinja.runtimeconfig.json
+C:\Gits\OwlNinja\OwlNinja\bin\Release\netcoreapp2.0\OwlNinja.runtimeconfig.dev.json
+C:\Gits\OwlNinja\OwlNinja\bin\Release\netcoreapp2.0\OwlNinja.dll
+C:\Gits\OwlNinja\OwlNinja\bin\Release\netcoreapp2.0\OwlNinja.pdb
+C:\Gits\OwlNinja\OwlNinja\obj\Release\netcoreapp2.0\OwlNinja.csprojResolveAssemblyReference.cache
+C:\Gits\OwlNinja\OwlNinja\obj\Release\netcoreapp2.0\OwlNinja.csproj.CoreCompileInputs.cache
+C:\Gits\OwlNinja\OwlNinja\obj\Release\netcoreapp2.0\OwlNinja.AssemblyInfoInputs.cache
+C:\Gits\OwlNinja\OwlNinja\obj\Release\netcoreapp2.0\OwlNinja.AssemblyInfo.cs
+C:\Gits\OwlNinja\OwlNinja\obj\Release\netcoreapp2.0\OwlNinja.dll
+C:\Gits\OwlNinja\OwlNinja\obj\Release\netcoreapp2.0\OwlNinja.pdb
